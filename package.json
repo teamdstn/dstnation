@@ -11,6 +11,7 @@
     "mongoose"    : "*",
     "jade"        : "*",
     "colors"      : "*",
-    "node-canvas" : "*"
+    "node-canvas" : "*",
+    "mocha"       : "*"
   }
 }
