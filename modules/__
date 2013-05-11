@@ -1,0 +1,108 @@
+(function(window, undefined) {
+  "use strict";
+
+  var __Array     = Array.prototype
+    , __String    = String.prototype
+    , __Object    = Object.prototype
+    , __Function  = Function.prototype
+    , __each      = __Array.forEach
+    , __map       = __Array.map
+    , __reduce    = __Array.reduce
+    , __right     = __Array.reduceRight
+    , __filter    = __Array.filter
+    , __every     = __Array.every
+    , __some      = __Array.some
+    , __index     = __Array.indexOf
+    , __last      = __Array.lastIndexOf
+    , __bind      = __Function.bind
+    , __trim      = __String.trim
+    , __ltrim     = __String.trimLeft
+    , __rtrim     = __String.trimRight
+    , __index     = __Array.indexOf
+    , __last      = __Array.lastIndexOf
+  ;
+
+  var __break = {};
+  var push        = __Array.push
+    , slice       = __Array.slice
+    , concat      = __Array.concat
+    , unshift     = __Array.unshift
+    , indexOf     = __Array.indexOf
+    , toString    = __Object.toString
+    , hasOwnProperty = __Object.hasOwnProperty
+
+    ;
+
+  var __define    = Object.defineProperty
+    , __keys      = Object.keys
+  ;
+
+  var __g = {};
+  var each = __g.each = function (obj, iterator, context) { if (obj == null) return; if (__each && obj.forEach === __each) { obj.forEach(iterator, context); } else if (obj.length === +obj.length) { for (var i = 0, l = obj.length; i < l; i++) {   if (iterator.call(context, obj[i], i, obj) === __break) return; } } else { for (var key in obj) {   if (__g.has(obj, key)) {     if (iterator.call(context, obj[key], key, obj) === __break) return;   } } } };
+  __g.normalize   = require("path").normalize;
+  __g.isArray     = __Array.isArray || function (obj) { return toString.call(obj) == "[object Array]"; };
+  __g.isObject    = function (obj) { return obj === Object(obj); };
+  each("Arguments Function String Number Date RegExp".split(" "),function(a){__g["is"+a]=function(b){return toString.call(b)=="[object "+a+"]"}});
+  __g.isArguments(arguments)||(__g.isArguments=function(a){return!(!a||!__g.has(a,"callee"))});
+  "function"!==typeof/ . /&&(__g.isFunction=function(a){return"function"===typeof a});
+  __g._v          = function(v){ return v; };
+  __g.is          = function(obj, str){ return toString.call(obj).toLowerCase() === "[object " + str +"]"; }
+  __g.defaults    = function(a){each(slice.call(arguments,1),function(c){for(var b in c)null==a[b]&&(a[b]=c[b])});return a};
+  __g.include     = function(obj, nee){ return !!~('' + obj).indexOf(nee); }
+  __g.inherits    = function(ctor, sctor) {ctor.super_=sctor;ctor.prototype=Object.create(sctor.prototype,{constructor:{value:ctor,enumerable:!1,writable:!0,configurable:!0}})};
+  __g.extend      = function(base,add){ if(!add||"object"!==typeof add)return base;for(var key=__keys(add),i=key.length;i--;)base[key[i]]=add[key[i]];return base};
+  __g.map         = function(a,c,d){ var b=[];if(null==a)return b;if(__array.map&&a.map===__array.map)return a.map(c,d);__g.each(a,function(a,e,f){b[b.length]=c.call(d,a,e,f)});a.length===+a.length&&(b.length=a.length);return b};
+  __g.trim        = function(str) {str += ''; return __trim ? __trim.call(str) : str.replace(new RegExp('\^\\s+|\\s+$', 'g'), '');}
+  __g.values      = function(obj){ return __g.map(obj, __g._v)};
+  __g.keys        = __keys||function(a){var b,c;if(a!==Object(a))throw new TypeError("Invalid object");b=[];for(c in a)_.has(a,c)&&(b[b.length]=c);return b};
+  __g.noop        = function(){};
+  __g.pick        = function(obj){var rst={};each(__g.flatten(slice.call(arguments,1)),function(a){a in obj&&(rst[a]=obj[a])});return rst};
+  __g.bind        = function(fun, ctx){ var bnd, arg; if(fun.bind()=== __bind && __bind) return __bind.apply(fun, slice.call(arguments,1)); if(!is(fun, "function"))throw new TypeError; arg=slice.call(arguments,2); return bnd=function(){ var self,rst; return this instanceof bnd ?  (__g.noop.prototype = fun.prototype, self= new noop, rst= fun.apply(self,arg.concat(slice.call(arguments))) ,Object(rst)=== rst ? rst: self) : fun.apply(ctx,arg.concat(slice.call(arguments))) } };
+  __g.reduce      = function(obj,ite,mem,ctx){ var ini= 2 < arguments.length; null == obj && (obj=[]); if(__reduce && obj.reduce === __reduce) return ctx && (ite=__g.bind(ite,ctx)), ini ? obj.reduce(ite,mem) : obj.reduce(ite); each(obj,function(v,k,l){ ini ? mem=ite.call(ctx,mem,v,k,l) : (mem=v,ini=!0)} ); if(!ini) throw new TypeError("Reduce of empty array with no initial value"); return mem; };
+  __g.flatten     = function(arr,sha){return __g.reduce(arr,function(mem,val){if(__g.is(val,"array"))return mem.concat(sha?val:__g.flatten(val));mem[mem.length]=val;return mem},[])};
+  __g.serial      = function(func,cb){function e(func,c){func.length?func.shift()(function(f,cb){f?c(f,d):(d.push(cb),e(func,c))}):c(null,d)}var func=func.slice(0),d=[];e(func,cb)};
+  __g.parallel    = function(func,cb){var c="object"===typeof func?__keys(func).length:func.length,f={},g=!1,d={};c||cb(null,d);for(var b in func)(function(){var i=func[b],h=b;pprocess.nextTick(function(){i(function(func,b){func&&(f[h]=func,g=!0);b&&(d[h]=b);c--;0==c&&cb(g?f:null,d)})})})()};
+  __g.serials     = function(arr, ite, clb){ if(!arr.length) return clb(); var fin = 0; var rst = function(){ ite(arr[fin], function(err){ if(err){ clb(err); clb = function(){}; } else { fin++; if(fin == arr.length) clb(); else rst(); } }); }; rst(); };
+  __g.arg         = function(rgmt,sl){!sl&&(sl=0);for(var b=sl,d=(rgmt||[]).length,e=Array(d-sl);b<d;b++)e[b-sl]=rgmt[b];return e};
+  __g.args        = function(arg,sht){ var rst=__g.arg(arg), clb; sht&&!rst[0] ? rst.shift() : __define(rst,"first",{value:rst[0]}); clb=rst[rst.length-1]||rst[rst.length]; "function"===typeof clb&&(__define(rst,"callback",{value:clb}),__define(rst,"next",{value:clb}),__define(rst,"cb",{value:clb}),rst.pop());rst.length&&__define(rst,"last",{value:rst[rst.length-1]});return rst};
+  __g.suction     = function(obj, sip, ign, hol, ovr) { ign = ign || []; !Array.isArray(ign) && (ign = [ign]); !Array.isArray(hol) && (hol = [hol]); __keys(sip).forEach(function (k) { if (0 > ign.indexOf(k)) { var nk = hol && 0 < hol.indexOf(k) ? hol[0] + k : k; if (obj.hasOwnProperty(k)) { ovr && (obj[nk] = sip[k]) } else { obj[nk] = sip[k] } } }) };
+  __g.merging     = function(obj,rif,cln){if(!obj||!rif)return null;var obj=cln?__g.clone(obj):obj,k;for(k in rif)obj[k]=rif[k];return obj};
+  __g.uparse      = require("url").parse;
+  __g.suction(__g, require("path"),"inspect",["p","join"] );
+  __g.filter = function (obj, iterator, context) {
+    var results = [];
+    if (obj == null) return results;
+    if (__filter && obj.filter === __filter) return obj.filter(iterator, context);
+    each(obj, function (value, index, list) {
+      if (iterator.call(context, value, index, list)) results[results.length] = value;
+    });
+    return results;
+  };
+  __g.reject = function (obj, iterator, context) {
+    var results = [];
+    if (obj == null) return results;
+    each(obj, function (value, index, list) {
+      if (!iterator.call(context, value, index, list)) results[results.length] = value;
+    });
+    return results;
+  };
+  __g.contains = __g.include = function (obj, target) {
+    var found = false;
+    if (obj == null) return found;
+    if (__index && obj.indexOf === __index) return obj.indexOf(target) != -1;
+    found = any(obj, function (value) {
+      return value === target;
+    });
+    return found;
+  };
+  __g.size = function (obj) {
+    return obj.length === +obj.length ? obj.length : __g.keys(obj).length;
+  };
+
+  var __e ="object"==typeof exports && exports && ("object"==typeof global && global && global === global.global && (root=global), exports);
+  var __instance = __g, __name = "edge", __nms = "$g", __precedent = root[__nms];
+  __instance.noConflict = function() { root[__nms] = __precedent; return this; };
+  "function"==typeof define && "object"==typeof define.amd && define.amd ? (root[__name]=__instance,define(function(){return __instance})):__e?"object"==typeof module&&module&&module.exports === __e ? (module.exports=__instance)[__name]=__instance : __e[__name] = __instance
+  :root[__name] = __instance;
+  //  module.exports = __g;
+}(this));

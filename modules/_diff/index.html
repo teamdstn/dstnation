@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Teamdstn</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Teamdstn@boilerplate">
+    <meta name="author" content="Teamdstn@dustin">
+    <!--
+      cdn : http://localhost/cdn/
+      http://twitter.github.com/bootstrap/1.4.0/bootstrap.min.css
+    -->
+    <link href="http://localhost/cdn/assets/css/bootstrap.css" rel="stylesheet">
+    <link href="http://localhost/cdn/assets/css/bootstrap-responsive.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="diff.css"/>
+
+
+    <style type="text/css">
+      body {
+        padding-top: 60px;
+        padding-bottom: 40px;
+      }
+    </style>
+    <!--[if lt ie 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" href="http://localhost/cdn/assets/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost/cdn/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost/cdn/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost/cdn/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="http://localhost/cdn/assets/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+    <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </a>
+          <a class="brand" href="#">Teamdstn@Project</a>
+          <div class="nav-collapse">
+            <ul class="nav">
+              <li class="active"><a href="#">Home</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
+
+    <div id="container">
+
+
+      <strong>Context size (optional):</strong>
+      <input type="text" id="contextSize" value=""></input>
+
+      <strong>Diff View Type:</strong>
+      <input type="radio" name="_viewtype" checked="checked" id="sidebyside" />Side by Side
+      <input type="radio" name="_viewtype" id="inline"/>Inline
+
+      <h2>Base Text</h2>
+      <textarea id="baseText" style="width:600px;height:300px"></textarea>
+
+      <h2>New Text</h2>
+      <textarea id="newText" style="width:600px;height:300px"></textarea>
+
+      <input type="button" value="Diff" onclick="javascript:diffon();"/>
+
+      <a name="diff"> </a>
+        <div id="diffoutput" style="width:100%"></div>
+      <hr>
+
+      <footer class="footer">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>©2012 Dstnation@teamdstn.</p>
+        <p></p>
+      </footer>
+
+    </div> <!-- /container -->
+
+    <!--
+      http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js
+      http://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/2.0.3/bootstrap.min.js
+      http://ajax.googleapis.com/ajax/libs/angularjs/1.0.2/angular.min.js
+     -->
+    <script type="text/javascript" src="../../lib/edge.js"></script>
+    <script type="text/javascript" src="diff.js"></script>
+    <script type="text/javascript" src="../diff.js"></script>
+
+    <script src="http://localhost/cdn/assets/js/jquery-1.7.2.min.js"></script>
+    <script src="http://localhost/cdn/assets/js/bootstrap.min.js"></script>
+    <script src="http://localhost/cdn/assets/js/swfobject.js"></script>
+    <script src="http://localhost/cdn/assets/js/swfext.js"></script>
+    <script src="http://localhost/cdn/assets/js/angular.min.js"></script>
+
+
+
+
+    <script>
+      var _t = $("body").append("<div id='trace'></div>");
+      var _colors = ["red", "yellow", "green", "blue"];
+      window.exports = function() {
+        console.log(arguments)
+      }
+      function co (o) {
+        return _colors.indexOf(o)
+      }
+      window.trace=function(){for(var a=arguments,b=a.length,e=1<b&&-1<co(a[b-1])?" style='font-weight:bold; color:"+a[b-1]+";'":"",c=0,d="<p>";c<b;c++)d+="<code"+e+">"+a[c]+"</code>";return _t.append(d+"</p>")};
+    </script>
+    <script>
+    var $outp   = $("#diffoutput");
+    var _vtype  = 0;
+
+
+    $("#inline").on("click", function(){ _vtype = 1});
+    $("#sidebyside").on("click", function(){ _vtype = 0});
+
+
+    var url = window.location.toString().split("#")[0];
+
+    function diffon () {
+      var base    = edge.diff.stringAsLines($("#baseText").attr("value"));
+      var newtxt  = edge.diff.stringAsLines($("#newText").attr("value"));
+      var sm      = new edge.diff.SequenceMatcher(base, newtxt);
+
+      var opcodes = sm.get_opcodes();
+      $outp.html("");
+
+      var contextSize = $("#contextSize").attr("value");
+      contextSize = contextSize ? contextSize : null;
+      $outp.append(edge.$diff.buildView({
+        baseTextLines:base,
+        newTextLines:newtxt,
+        opcodes:opcodes,
+        baseTextName:"Base Text",
+        newTextName:"New Text",
+        contextSize:contextSize,
+        viewType: _vtype
+      }));
+
+      window.location = url + "#diff";
+    }
+    </script>
+
+    <script>
+      trace("console","test","blue");
+      trace("console","test","green");
+    </script>
+
+  </body>
+</html>
