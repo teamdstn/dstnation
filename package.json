@@ -7,9 +7,10 @@
     "start": "node app"
   },
   "dependencies": {
-    "express" : "*",
-    "mongoose": "*",
-    "jade"    : "*",
-    "colors"  : "*"
+    "express"     : "*",
+    "mongoose"    : "*",
+    "jade"        : "*",
+    "colors"      : "*",
+    "node-canvas" : "*"
   }
 }
