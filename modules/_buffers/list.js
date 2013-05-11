@@ -127,5 +127,6 @@ function BufferList(options) {
         return self.take("binary");
     };
 }
+
 inherits(BufferList, EventEmitter);
 

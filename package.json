@@ -1,0 +1,15 @@
+{
+  "name": "edge",
+  "version": "0.0.1",
+  "private": true,
+  "main":"lib/edge.js",
+  "scripts": {
+    "start": "node app"
+  },
+  "dependencies": {
+    "express" : "*",
+    "mongoose": "*",
+    "jade"    : "*",
+    "colors"  : "*"
+  }
+}
