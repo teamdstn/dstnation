@@ -1,0 +1,76 @@
+<html>
+  <head>
+    <title>Request Logger</title>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/reset.css">
+    <script src="/json2.js"></script>
+    <script src="/jquery.min.js"></script>
+    <script src="/underscore-min.js"></script>
+    <script src="/backbone-min.js"></script>
+    <script src="/jquery.mustache.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/amf.js"></script>
+    <script src="/app.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/default.css">
+    <script id="request-item" type="text/x-jquery-tmpl">
+      <div class='line'>
+        <div class='method'>{{method}}</div>
+        <div class='url'>{{url}}</div>
+        <div class='status'>{{status}}</div>
+      </div>
+      <div class='subline'>
+        <div class='time'>{{time}} ms</div>
+        <div class='time'>{{length}} bytes</div>
+      </div>
+    </script>
+    <script id="requestDetailTemplate" type="text/x-jquery-tmpl">
+      <div id='request'>
+        {{#request}}
+        <div class='header'>
+          <h2>{{method}} - {{url}}</h2>
+        </div>
+        <h3>HEADERS</h3>
+        <div class='content'>
+          <ul class='headers'>
+            {{#headers}}
+            <li>{{.}}</li>
+            {{/headers}}
+          </ul>
+          {{#content}}
+        </div>
+        <h3>CONTENT</h3>
+        <div class='content'>
+            <pre>{{content}}</pre>
+        {{/content}}
+        {{/request}}
+        </div>
+        {{#response}}
+        <div class='header'>
+          <h2>Response - {{status}}</h2>
+        </div>
+        <h3>HEADERS</h3>
+        <div class='content'>
+          <ul class='headers'>
+            {{#headers}}
+            <li>{{.}}</li>
+            {{/headers}}
+          </ul>
+          {{#content}}
+        </div>
+        <h3>CONTENT</h3>
+        <div class='content'>
+            <pre>{{content}}</pre>
+          {{/content}}
+          {{/response}}
+        </div>
+      </div>
+    </script>
+  </head>
+  <body>
+    <div id='list-view'>
+      <ul id="requests"></ul>
+      <div id='scroll-btn'>⇊</div>
+    </div>
+    <div id='detail-view'>
+    </div>
+  </body>
+</html>
